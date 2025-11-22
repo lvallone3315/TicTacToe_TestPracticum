@@ -136,7 +136,7 @@ bool TicTacToeBoard::isDraw() const {
 		return false;
 }
 
-// map enum to character
+// map enum to character for displaying player name
 char TicTacToeBoard::playerMap(Player playerEnum) const {
 	switch (playerEnum) {
 	case X:

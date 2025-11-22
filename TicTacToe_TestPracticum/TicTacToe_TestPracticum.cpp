@@ -7,25 +7,31 @@
 
 #define MAX_CHARS 128     // max size of the user output buffer
 
-char GAME_VERSION[MAX_CHARS] = "Version: 2025 v1.1\n";
+namespace {  //  Anonymous namespace - ensures the helper functions & the output strings are only accessible in this file
+    // helper functions
+    void someoneWins(TicTacToeUI console, TicTacToeBoard& board);
+    void itsaDraw(TicTacToeUI console, TicTacToeBoard& board);
 
-// User Messages - format intended for sprintf_s
-//   ToDo - mark as constants
-char INTRO_MESSAGE[MAX_CHARS] = "Welcome to Tic Tac Toe, class of Fall 2025!\n";
-char ENTER_MOVE[MAX_CHARS] = "Player %c to play, please enter two digits, row[0 - 2] & column[0 - 2] or q to exit: ";
-char SHOW_MOVE[MAX_CHARS] = "You entered ... Row: %u\tColumn: %u\n";
+    constexpr const char* GAME_VERSION = "Version: 2025 v1.1\n";
 
-// Game over messages
-char PLAYER_WIN[MAX_CHARS] = "\tGame over - Player %c has won!\n   Resetting board, q to exit\n";
-char PLAYER_DRAW[MAX_CHARS] = "\tGame over - It's a DRAW!\n   Resetting board, q to exit\n";
+    // User Messages - format intended for sprintf_s
+    //   constexpr = compile time constant, no dynamic memory, no risk of overflow & works with printf() & sprintf()
+    constexpr const char* INTRO_MESSAGE = "Welcome to Tic Tac Toe, class of Fall 2025!\n";
+    constexpr const char* ENTER_MOVE = "Player %c to play, please enter two digits, row[0 - 2] & column[0 - 2] or q to exit: ";
+    constexpr const char* SHOW_MOVE = "You entered ... Row: %u\tColumn: %u\n";
 
-// Error messages
-char INVALID_COMMAND[MAX_CHARS] = "\t\t\tInvalid entry - please try again\n";
-char SQUARE_NOT_EMPTY[MAX_CHARS] = "\t\t\tInvalid move!Square already taken - player %c to try again\n";
-char EXIT_MESSAGE[MAX_CHARS] = "\tThank you for playing\n";
+    // Game over messages
+    constexpr const char* PLAYER_WIN = "\tGame over - Player %c has won!\n   Resetting board, q to exit\n";
+    constexpr const char* PLAYER_DRAW = "\tGame over - It's a DRAW!\n   Resetting board, q to exit\n";
 
-// hack - empty message to clear screen (ToDo - get rid of this)
-char CLEAR_SCREEN[MAX_CHARS] = "";
+    // Error messages
+    constexpr const char* INVALID_COMMAND = "\t\t\tInvalid entry - please try again\n";
+    constexpr const char* SQUARE_NOT_EMPTY = "\t\t\tInvalid move!Square already taken - player %c to try again\n";
+    constexpr const char* EXIT_MESSAGE = "\tThank you for playing\n";
+
+    // hack - empty message to clear screen (ToDo - get rid of this)
+    constexpr const char* CLEAR_SCREEN = "";
+} // end anonymous namespace to restrict visibility to this file
 
 
 
@@ -42,9 +48,6 @@ int main()
     unsigned int row;        // row entered by user
     unsigned int col;        // column entered by user
 
-    // helper functions
-    void someoneWins(TicTacToeUI console, TicTacToeBoard& board);
-    void itsaDraw(TicTacToeUI console, TicTacToeBoard& board);
 
     console.writeOutput(INTRO_MESSAGE);
     console.writeOutput(GAME_VERSION);
@@ -116,25 +119,27 @@ int main()
         else {        // square already taken
             console.writeOutput(SQUARE_NOT_EMPTY, board.getPlayerName());
         }
-    } while (1);
+    } while (true);
 
 }
 
-// Helper function - the current player has won - take the necessary steps
-//   note - need to pass by reference, otherwise it makes a copy of the board object
-//     could do the same for console, but not needed, should be stateless
-void someoneWins(TicTacToeUI console, TicTacToeBoard& board) {
-    console.writeTicTacToeBoard(board);
-    console.writeOutput(PLAYER_WIN, board.getPlayerName());
-    board.resetBoard();
-}
+namespace {   // anonymous namespace to match definitions at top of the file
+    // Helper function - the current player has won - take the necessary steps
+    //   note - need to pass by reference, otherwise it makes a copy of the board object
+    //     could do the same for console, but not needed, should be stateless
+    void someoneWins(TicTacToeUI console, TicTacToeBoard& board) {
+        console.writeTicTacToeBoard(board);
+        console.writeOutput(PLAYER_WIN, board.getPlayerName());
+        board.resetBoard();
+    }
 
-// helper function - it's a draw - reset & prepare for a new game
-//   note - need to pass by reference, otherwise it makes a copy of the board object
-void itsaDraw(TicTacToeUI console, TicTacToeBoard& board) {
-    console.writeTicTacToeBoard(board);
-    console.writeOutput(PLAYER_DRAW);
-    board.resetBoard();
+    // helper function - it's a draw - reset & prepare for a new game
+    //   note - need to pass by reference, otherwise it makes a copy of the board object
+    void itsaDraw(TicTacToeUI console, TicTacToeBoard& board) {
+        console.writeTicTacToeBoard(board);
+        console.writeOutput(PLAYER_DRAW);
+        board.resetBoard();
+    }
 }
 
 

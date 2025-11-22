@@ -105,7 +105,7 @@ namespace TicTacToeTest
 		//   
 		//   Note - squashed catch blocks after the first for readability
 		TEST_METHOD(Exception_Handling) {
-			//  writeSquare(row, column, player), valid ranges are row [0:2] & column [0:2]
+			//  writeSquare - try invalid rows & columns, valid ranges are row [0:2] & column [0:2]
 			try {
 				Logger::WriteMessage("\nTesting invalid row, 3, passed to writeSquare\n");
 				board.writeSquare(3, 0, TicTacToeBoard::X);

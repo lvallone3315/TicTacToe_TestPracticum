@@ -37,7 +37,7 @@ TicTacToeUI::TicTacToeUI() {
 //   waits for user input, echoes the input & returns it to caller
 //   note: does not trim leading white space
 //
-string TicTacToeUI::getUserInput(char* prompt) const {
+string TicTacToeUI::getUserInput(const char* prompt) const {
     string userInput;
 
     writeOutput(prompt);
@@ -49,7 +49,7 @@ string TicTacToeUI::getUserInput(char* prompt) const {
 
 // writeOutput() - writes parameter to output
 //   
-int TicTacToeUI::writeOutput(char* output) const {
+int TicTacToeUI::writeOutput(const char* output) const {
     cout << output;
     return 0;
 }
@@ -58,14 +58,16 @@ int TicTacToeUI::writeOutput(char* output) const {
 // overload of writeOutput() giving option to clear screen
 // writeOutput() - writes parameter to output
 //   
-int TicTacToeUI::writeOutput(char* output, bool clearScreenPrior) const {
+int TicTacToeUI::writeOutput(const char* output, bool clearScreenPrior) const {
     if (clearScreenPrior)
         system("cls");
     cout << output;
     return 0;
 }
 
-int TicTacToeUI::writeOutput(char *output, char arg) const {
+// assumes *output includes a %c format placeholder
+//    writes arg into output string & displays
+int TicTacToeUI::writeOutput(const char *output, char arg) const {
     const int MAX_CHARS = 128;
     char userString[MAX_CHARS];
 
@@ -74,7 +76,9 @@ int TicTacToeUI::writeOutput(char *output, char arg) const {
     return 0;
 }
 
-int TicTacToeUI::writeOutput(char* output, int arg1, int arg2) const {
+// assumes *output includes %d ... %d (ie two) format placeholders
+//    writes args into output string & displays
+int TicTacToeUI::writeOutput(const char* output, int arg1, int arg2) const {
     const int MAX_CHARS = 128;
     char userString[MAX_CHARS];
 

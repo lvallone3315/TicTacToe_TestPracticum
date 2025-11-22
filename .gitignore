@@ -361,4 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/TicTacToe_Fall2023/ClassDiagram.cd
+/TicTacToe_TestPracticum/ClassDiagram.cd
+/TicTacToe_Fall2023/TicTacToeBoard.h

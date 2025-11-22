@@ -29,11 +29,12 @@
  * bool isDraw()                               - true if no-one has won & no open squares, false otherwise (e.g. consider - no spaces empty)
  **/
 
+
 class TicTacToeBoard
 {
 
 public:
-	enum Player { X, O, EMPTY};    // define player enums, map to display character
+	enum Player { X, O, EMPTY };    // define player enums, map to display character, ToDo: use "class" for type safety
 
 	// define some constants for public consumption, note initial player defined here in the Board class
 	static constexpr int BOARD_NUM_ROWS = 3;
@@ -42,7 +43,8 @@ public:
 
 
 	TicTacToeBoard();
-	void resetBoard();										// resets the squares to EMPTY as the # of turns played in the current game
+	void resetBoard();										// resets the squares to EMPTY and the # of turns played in the current game
+		                                                    //   Note: reset board DOES NOT reinitialize the player whose turn it is
 	bool isSquareEmpty(int row, int col) const;				// returns true if given space is empty, false if already occupied
 	bool writeSquare(int row, int col, Player currentPlayer);  // returns true if successfully written, false on failure (e.g. space not empty)
 	char getSquareContents(int row, int col) const;       // used for displaying board, return player character
@@ -58,6 +60,7 @@ private:  // reserve memory for board & current player
 	Player board[BOARD_NUM_ROWS][BOARD_NUM_COLS];      // board storage, indexed by row [0-2] and column [0-2]
 	Player player = INITIAL_PLAYER;                    // tracks the current player, ie next symbol placed
 	int takenSquareCount = 0;                        // # of spaces played in current game, reset for new games
-	char playerMap(Player playerEnum) const;		// map player enum to player character - ToDo - create mapping list rather than switch statement
 
+	// map player enum to player character - used as a helper function
+	char playerMap(Player playerEnum) const;		// ToDo - create mapping list rather than switch statement
 };
