@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <iostream>
-#include "../TicTacToe_Fall2023/TicTacToeBoard.h"
+#include "../TicTacToe_TestPracticum/TicTacToeBoard.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -22,8 +22,9 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{8a23dc32-96b4-4967-b9f4-5385f5d2df76}</ProjectGuid>
-    <RootNamespace>TicTacToeFall2023</RootNamespace>
+    <RootNamespace>TicTacToe_TestPracticum</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>TicTacToe_TestPracticum</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -130,7 +131,7 @@
   <ItemGroup>
     <ClCompile Include="TicTacToeBoard.cpp" />
     <ClCompile Include="TicTacToeUI.cpp" />
-    <ClCompile Include="TicTacToe_Fall2023.cpp" />
+    <ClCompile Include="TicTacToe_TestPracticum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TicTacToeBoard.h" />

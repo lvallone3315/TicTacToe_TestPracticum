@@ -157,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TicTacToe_Fall2023\TicTacToeBoard.cpp">
+    <ClCompile Include="..\TicTacToe_TestPracticum\TicTacToeBoard.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="AdditionalBoardTests.cpp" />
@@ -174,7 +174,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TicTacToe_Fall2023\TicTacToe_Fall2023.vcxproj">
+    <ProjectReference Include="..\TicTacToe_Fall2023\TicTacToe_TestPracticum.vcxproj">
       <Project>{8a23dc32-96b4-4967-b9f4-5385f5d2df76}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -21,13 +21,13 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\TicTacToe_Fall2023\TicTacToeBoard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AdditionalBoardTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StudentAutomatedTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TicTacToe_TestPracticum\TicTacToeBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
