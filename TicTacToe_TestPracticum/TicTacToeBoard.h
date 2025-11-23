@@ -29,6 +29,8 @@
  * bool isDraw()                               - true if no-one has won & no open squares, false otherwise (e.g. consider - no spaces empty)
  **/
 
+#include <set>          // for pattern matching design
+#include <array>        //   ditto - pattern matching
 
 class TicTacToeBoard
 {
@@ -65,4 +67,19 @@ private:  // reserve memory for board & current player
 	char playerMap(Player playerEnum) const;		// ToDo - create mapping list rather than switch statement
 	  // validates arguments against BOARD_NUM_..., throws invalid arg exception
 	void validateRowsAndColumns(int row, int column) const;
+
+		//                                 Pattern matching winners
+		//  following methods & data structures are used in a new approach to check for a win
+		//   set based approach, where row & column are mapped into a 0-8 position (actually 0-#rows*#cols-1)
+		//   writeSquare() fills in legacy board[][], as well as tracking X & Os positions played
+		//   matchesWinningPattern() checks if any of the winning patterns (e.g. 0,4,8 - forward diagonal) is a subset of the player's moves
+		//     isWinner() via comment removal can be set to use the new approach
+		//
+		// Important!  an inline declaration would require C++ v17 or newer, default in MS VS 2022 is v14
+		//   To mitigate: the initialization is in the cpp file -> no inline declaration required, and can run in v14
+	std::set<int> xMoves;		// track X moves by position 0-8 for set based evaluation
+	std::set<int> oMoves;       // track O moves by position 0-8 for same
+
+	bool matchesWinningPattern(Player p) const;     // refactor isWinner() to pattern matching approach
+	int rowColToPosition(int row, int column);      // helper function to map row & column to a position
 };
