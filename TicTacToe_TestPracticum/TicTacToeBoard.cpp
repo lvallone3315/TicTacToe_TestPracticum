@@ -38,8 +38,10 @@ void TicTacToeBoard::resetBoard() {
 }
 
 // If specified space is empty - return true
-//    no arg checking on this one :)
 bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
+	// use helper function to validate parameters, if invalid exception thrown, won't get pass the call
+	validateRowsAndColumns(row, col);
+
 	if (board[row][col] == EMPTY)
 		return true;
 	else
@@ -47,7 +49,6 @@ bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 }
 
 // Updates space to the player (marker) specified, return false if space not empty
-//   intentional arg check issue
 bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
 	// use helper function to validate parameters, if invalid exception thrown, won't get pass the call
 	validateRowsAndColumns(row, col);
@@ -65,10 +66,9 @@ bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
 
 // Returns character (ie player marker) in the given row/col, throws exception if args invalid
 char TicTacToeBoard::getSquareContents(int row, int col) const {
-	if ((row >= BOARD_NUM_ROWS) || (col >= BOARD_NUM_COLS)) {
-		// note: if we get here, everything after the above throw line is skipped — it never runs.
-		throw std::invalid_argument("Invalid row or column passed to getSquareContents\n");
-	}
+	// use helper function to validate parameters, if invalid exception thrown, won't get pass the call
+	validateRowsAndColumns(row, col);
+
 	// else - good row & column passed
 	return playerMap(board[row][col]);
 }
