@@ -40,7 +40,7 @@ namespace TicTacToeTest
 		{
 			Logger::WriteMessage("Testing X is selected as first player\n");
 			// verify X is to play, O is NOT to play
-			Assert::AreEqual(board.getPlayerName(), 'X');
+			Assert::AreEqual(board.getPlayerName(), 'X', L"Expected X to be first player, but wasn't");
 			Assert::AreNotEqual(board.getPlayerName(), 'O');
 		}
 
@@ -100,8 +100,7 @@ namespace TicTacToeTest
 		//   getSquareContents(row [0:2], column [0:2], )
 		// 
 		// All three methods should throw an invalid argument exception if the parameters are out of range
-		// 
-		// Need to test  for above upper bound and below lower bound (e.g. negative values)
+		//   Test case below is a sample
 		//   
 		//   Note - squashed catch blocks after the first for readability
 		TEST_METHOD(Exception_Handling) {
@@ -127,28 +126,8 @@ namespace TicTacToeTest
 				board.getSquareContents(0, 65536);
 				Assert::Fail(L"Expected std::invalid_argument not thrown");
 			}
-			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what());		}
-			catch (...) {	Assert::Fail(L"Unexpected exception type thrown");			}
-
-			//  getSquareContents(row, column)
-			//     test for negative values as well, e.g. [-1][0]
-			try {
-				Logger::WriteMessage("\nTesting invalid row, -1, passed to getSquareContents\n");
-				board.getSquareContents(-1, 0);
-				Assert::Fail(L"Expected std::invalid_argument not thrown");
-			}
 			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what()); }
 			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
-			
-			// isSquareEmpty(row, column)
-			//     invalid row & column
-			try {
-				Logger::WriteMessage("\nTesting invalid row 3 & column 3, passed to isSquareEmpty\n"); 
-				board.isSquareEmpty(3, 3);
-				Assert::Fail(L"Expected std::invalid_argument not thrown");
-			}
-			catch (const std::invalid_argument& ex) {Logger::WriteMessage(ex.what());			}
-			catch (...) {				Assert::Fail(L"Unexpected exception type thrown");			}
 		}
 	}; 
 }

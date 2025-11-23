@@ -1,6 +1,7 @@
 #include "TicTacToeBoard.h"
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 
 /*
  * ToDo - Validate row & columns everywhere  (highest priority - poor OO coding!!!
@@ -37,6 +38,7 @@ void TicTacToeBoard::resetBoard() {
 }
 
 // If specified space is empty - return true
+//    no arg checking on this one :)
 bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 	if (board[row][col] == EMPTY)
 		return true;
@@ -47,10 +49,9 @@ bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 // Updates space to the player (marker) specified, return false if space not empty
 //   intentional arg check issue
 bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
-	if ((row >= BOARD_NUM_ROWS) || (col >= BOARD_NUM_COLS)) {
-		// note: if we get here, everything after the above throw line is skipped — it never runs.
-		throw std::invalid_argument("Invalid row or column passed to writeSquare\n");
-	}
+	// use helper function to validate parameters, if invalid exception thrown, won't get pass the call
+	validateRowsAndColumns(row, col);
+
 	// if within range & the square is empty, enter the player's move, update # of spaces played & return true
 	if (this -> isSquareEmpty(row, col)) {
 		board[row][col] = currentPlayer;
@@ -63,9 +64,9 @@ bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
 }
 
 // Returns character (ie player marker) in the given row/col, throws exception if args invalid
-//    another intentional arg check failure
 char TicTacToeBoard::getSquareContents(int row, int col) const {
 	if ((row >= BOARD_NUM_ROWS) || (col >= BOARD_NUM_COLS)) {
+		// note: if we get here, everything after the above throw line is skipped — it never runs.
 		throw std::invalid_argument("Invalid row or column passed to getSquareContents\n");
 	}
 	// else - good row & column passed
@@ -145,5 +146,16 @@ char TicTacToeBoard::playerMap(Player playerEnum) const {
 		return 'O';
 	default:
 		return ' ';
+	}
+}
+
+// helper function to validate row & column arguments
+//   if outside range [0:BOARD_NUM_...], throws invalid_argument exception
+//   ToDo - determine if called method (or even the whole stack) is shown in the exception output
+void TicTacToeBoard::validateRowsAndColumns(int row, int column) const {
+	if ((row >= BOARD_NUM_ROWS) || (column >= BOARD_NUM_COLS) ||
+		(row < 0) || (column < 0)) {
+		std::string errorMessage = "Exception thrown: invalid row or column.  row: " + std::to_string(row) + "  column: " + std::to_string(column) + "\n";
+		throw std::invalid_argument(errorMessage);
 	}
 }

@@ -61,6 +61,8 @@ private:  // reserve memory for board & current player
 	Player player = INITIAL_PLAYER;                    // tracks the current player, ie next symbol placed
 	int takenSquareCount = 0;                        // # of spaces played in current game, reset for new games
 
-	// map player enum to player character - used as a helper function
+	  // map player enum to player character - used as a helper function
 	char playerMap(Player playerEnum) const;		// ToDo - create mapping list rather than switch statement
+	  // validates arguments against BOARD_NUM_..., throws invalid arg exception
+	void validateRowsAndColumns(int row, int column) const;
 };

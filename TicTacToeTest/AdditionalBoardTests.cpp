@@ -151,12 +151,14 @@ namespace TicTacToeTest
 			Assert::IsFalse(board.isDraw(), L"Expecting no draw since X won, but isDraw returned true!");
 		}
 
-		// Testing O winning a game in column 2, no moves by X
+		//               Win scenarios below are abbreviated
+		//                  above scenarios cover the full range
+		// Testing O winning a game in third column, no moves by X
 		// scenario:   -  -  O
 		//             -  -  O
 		//             -  -  O
-		TEST_METHOD(TestWinO_Column2_LV) {
-			Logger::WriteMessage("Testing O winning in 2nd column, no moves by X");
+		TEST_METHOD(TestWinO_Column3) {
+			Logger::WriteMessage("Testing O winning in 3rd column, no moves by X");
 			// reset the board & verify no winner and no draw
 			board.resetBoard();
 			Assert::IsFalse(board.isWinner(TicTacToeBoard::X), L"board reset, but X showing as winner");
@@ -169,5 +171,166 @@ namespace TicTacToeTest
 			Assert::IsTrue(board.isWinner(TicTacToeBoard::O), L"expecting O to win, but isWinner() returned false for O");
 			Assert::IsFalse(board.isDraw(), L"game showing a draw, but only 3 moves!");
 		}
+
+		// Testing X winning a game in first column, no moves by O
+		// scenario:   X  -  -
+		//             X  -  -
+		//             X  -  -
+		TEST_METHOD(TestWinX_Column1) {
+			Logger::WriteMessage("Testing X winning in 1st column, no moves by O");
+			// board should be reset by test method initialization - so shouldn't need to reset, but verify anyway
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::X), L"board reset, but X showing as winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::O), L"board reset, but O showing as winner");
+			Assert::IsFalse(board.isDraw(), L"board reset, but game showing a draw");
+			board.writeSquare(0, 0, TicTacToeBoard::X);  // for grins start from bottom of game grid
+			board.writeSquare(2, 0, TicTacToeBoard::X);
+			board.writeSquare(1, 0, TicTacToeBoard::X);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::X), L"expected X to win, but O showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::O), L"expecting O to lose, but isWinner() returned true for O");
+			Assert::IsFalse(board.isDraw(), L"game showing a draw, but only 3 moves!");
+		}
+			// Testing O winning a game in 2nd column, no moves by X
+			// scenario:   -  X  -
+			//             -  X  -
+			//             -- X  -
+		TEST_METHOD(TestWinX_Column2) {
+			Logger::WriteMessage("Testing X winning in 2nd column, no moves by O");
+			// board should be reset by test method initialization - verified above, so skip that here
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			board.writeSquare(0, 1, TicTacToeBoard::X);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::X), L"expected X to win, but O showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::O), L"expecting X to win, but isWinner() returned true for O");
+			Assert::IsFalse(board.isDraw(), L"game showing a draw, but only 3 moves!");
+		}
+				// Testing X winning game on forward diagonal, no moves by O
+				// scenario:   -  -  X
+				//             -  X  -
+				//             X  -  -
+		TEST_METHOD(TestWinX_ForwardDiag) {
+			Logger::WriteMessage("Testing X winning on forward diagonal /, no moves by O");
+			// board should be reset by test method initialization - so shouldn't need to reset
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(2, 2, TicTacToeBoard::X);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::X), L"expected X to win, but O showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::O), L"expecting X to win, but isWinner() returned true for O");
+			Assert::IsFalse(board.isDraw(), L"game showing a draw, but only 3 moves!");
+		}
+			// Testing 0 winning game on backward diagonal, no moves by X
+			// scenario:   O  -  -
+			//             -  O  -
+			//             -  -  O
+		TEST_METHOD(TestWinO_BackwardDiag) {
+			Logger::WriteMessage("Testing O winning on backward diagonal /, no moves by X");
+			// board should be reset by test method initialization - so shouldn't need to reset
+			board.writeSquare(1, 1, TicTacToeBoard::O);
+			board.writeSquare(2, 0, TicTacToeBoard::O);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::O), L"expected O to win, but X showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::X), L"expecting O to win, but isWinner() returned true for X");
+			Assert::IsFalse(board.isDraw(), L"game showing a draw, but only 3 moves!");
+		}
+		   //  Testing all rows with one test case
+		TEST_METHOD(TestWin_XandO_AllRows) {
+			Logger::WriteMessage("Testing wins on all rows");
+			// row 0 - X to win
+			board.writeSquare(0, 2, TicTacToeBoard::X);
+			board.writeSquare(0, 1, TicTacToeBoard::X);
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::X), L"expected X to win, but O showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::O), L"expecting X to win, but isWinner() returned true for O");
+			board.resetBoard();
+			// row 1 - O to win
+			board.writeSquare(1, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 2, TicTacToeBoard::O);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::O), L"expected O to win, but X showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::X), L"expecting X to win, but isWinner() returned true for X");
+			board.resetBoard();    // clear the board
+
+			// row 2 - X to win
+			board.writeSquare(2, 2, TicTacToeBoard::X);
+			board.writeSquare(2, 0, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::X), L"expected X to win, but O showing as a winner");
+			Assert::IsFalse(board.isWinner(TicTacToeBoard::O), L"expecting X to win, but isWinner() returned true for O");
+		}  // end testing wins on all rows
+
+
+		// The following methods take range restricted arguments:
+		//   writeSquare (row [0:2], column [0:2], player - but this is an enum, can't go out of range)
+		//   isSquareEmpty (row [0:2], column [0:2])
+		//   getSquareContents(row [0:2], column [0:2], )
+		// 
+		// All three methods should throw an invalid argument exception if the parameters are out of range
+		// 
+		// Test above upper bound and below lower bounds (e.g. negative values)
+		//   
+		//   Note - squashed catch blocks after the first for readability
+		TEST_METHOD(BoardClassException_Handling) {
+			//  writeSquare - try invalid rows & columns, valid ranges are row [0:2] & column [0:2]
+			// validate both upper end of range & lower end of range
+			try {
+				Logger::WriteMessage("\nwriteSquare: Testing invalid row & then invalid column\n");
+				board.writeSquare(2, 2, TicTacToeBoard::O);   // write a valid value first, no exception should be thrown
+				board.writeSquare(3, 0, TicTacToeBoard::X);
+				// the above should throw an exception, triggering the catch block
+				//    hence the Assert::Fail should never execute
+				Assert::Fail(L"Expected std::invalid_argument not thrown");
+			}
+			catch (const std::invalid_argument& ex) {  // catch invalid arg execption thrown
+				Logger::WriteMessage(ex.what());
+			}
+			catch (...) {   // if a different exception is thrown, will end up here, and the test case will fail
+				Assert::Fail(L"Unexpected exception type thrown");
+			}
+			try {
+				board.writeSquare(1, -1, TicTacToeBoard::O);
+				Assert::Fail(L"Expected std::invalid_argument not thrown");
+			}
+			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what()); }
+			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
+
+
+			//  getSquareContents(row, column), valid range [0:2][0:2]
+			//     1) far out of range, 2^16
+			//     2) test for negative values as well, e.g. [-1][0]
+			try {
+				board.getSquareContents(-0, -0);  // -0 shouldn't fail
+				board.getSquareContents(0, 0);   // query a valid row/column first, no exception should be thrown
+				Logger::WriteMessage("\ngetSquareConents: Testing invalid column, 65536\n  invalid row & column\n");
+				board.getSquareContents(0, 65536);
+				Assert::Fail(L"Expected std::invalid_argument not thrown");
+			}
+			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what()); }
+			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
+
+			try { board.getSquareContents(-99, 99);
+				Assert::Fail(L"Expected std::invalid_argument not thrown");
+			}
+			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what()); }
+			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
+
+
+
+			// isSquareEmpty(row, column)
+			//     invalid row & column
+			try {
+				Logger::WriteMessage("\nisSquareEmpty: Testing invalid row 3 & column 3\n");
+				board.isSquareEmpty(3, 3);
+				Assert::Fail(L"Expected std::invalid_argument not thrown");
+			}
+			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what()); }
+			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
+
+			try {
+				Logger::WriteMessage("\nisSquareEmpty: Testing invalid row -1 & valid column\n");
+				board.isSquareEmpty(-1, 2);
+				Assert::Fail(L"Expected std::invalid_argument not thrown");
+			}
+			catch (const std::invalid_argument& ex) { Logger::WriteMessage(ex.what()); }
+			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
+		}  // end invvalid arguments & exception throwing test case
 	};
 }
