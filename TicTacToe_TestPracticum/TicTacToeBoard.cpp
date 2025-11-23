@@ -2,11 +2,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <array>    // set refactor
+#include <algorithm>  // set refactor
 
 /*
- * ToDo - Validate row & columns everywhere  (highest priority - poor OO coding!!!
  * ToDo - Separate player name from 'X' and 'O' characters - e.g. default player name to character, but then allow it to change
-*/
+ */
 
 /*
  * Instance variables (declared in header file)
@@ -35,6 +36,9 @@ void TicTacToeBoard::resetBoard() {
 			board[r][c] = EMPTY;
 		}
 	}
+	// clear the set of player moves (used in the pattern implementation of isWinner()
+	xMoves.clear();
+	oMoves.clear();
 }
 
 // If specified space is empty - return true
@@ -57,6 +61,11 @@ bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
 	if (this -> isSquareEmpty(row, col)) {
 		board[row][col] = currentPlayer;
 		takenSquareCount++;
+		// used for set based refactoring of win condition
+		if (currentPlayer == X)
+			xMoves.insert(rowColToPosition(row, col));
+		else
+			oMoves.insert(rowColToPosition(row, col));
 		return true;
 	}
 	else { // the space was already occupied, return false
@@ -92,10 +101,22 @@ TicTacToeBoard::Player TicTacToeBoard::nextPlayer() {
 	return player;
 }
 
+// Return true if game is a Draw - all squares filled and no one has won
+bool TicTacToeBoard::isDraw() const {
+	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) &&
+		!this->isWinner(X) && !this->isWinner(O)) {
+		return true;
+	}
+	else
+		return false;
+}
+
 // Return true if specified player has won the game
 //   Legacy version - exhaustive check - cell by cell
 bool TicTacToeBoard::isWinner(Player playerToCheck) const {
 
+	// matchesWinningPattern(playerToCheck);   // set based refactor
+	
 	// check rows
 	for (int r = 0; r < BOARD_NUM_ROWS; r++) {
 		if ((board[r][0] == playerToCheck) &&
@@ -126,15 +147,52 @@ bool TicTacToeBoard::isWinner(Player playerToCheck) const {
 	return false;              // no winner this time
 }
 
+//                                     ***  Board class Helper functions ***
+//       pattern matching functions               mapping enums to player character           validating arguments
 
-// Return true if game is a Draw - all squares filled and no one has won
-bool TicTacToeBoard::isDraw() const {
-	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && 
-		!this->isWinner(X) && !this->isWinner(O)) {
-		return true;
+
+//                      Pattern matching based winning approach
+// the following set based code is based on LV's python design that implemented set based win checks
+//   for expediency, the implementation leveraged some code from chatgpt
+// approach - record each players moves in a vector (ie X's moves & O's moves)
+//    given a set of winning patterns (winPatterns)
+//    check if any of the winning patterns is a sub-set of the specified player's moves
+// for example - X has moved {(0,0), (1,0), (1,1), (2,0)}  winning pattern (0,0), (1,0), (2,0) is a subset, X wins
+//   To add a new winning pattern - update the array size (e.g. 8->9) & add the pattern to the set below ,{{x,y,z}}
+
+static constexpr  std::array<std::array<int, 3>, 8> winPatterns{ {
+	{{0,1,2}}, {{3, 4, 5}}, {{6,7,8}},    // rows
+	{{0,3,6}}, {{1, 4, 7}}, {{2,5,8}},    // columns
+	{{0,4,8}}, {{2,4,6}}                 // diagonals
+} };
+
+bool TicTacToeBoard::matchesWinningPattern(Player p) const {
+	const std::set<int>& moves = (p == X) ? xMoves : oMoves;   // select players individual moves
+
+	for (const auto& pattern : winPatterns) {
+		bool allFound = true;
+		// check all 3 positions for each pattern
+		for (int pos : pattern) {
+			if (moves.count(pos) == 0) {
+				allFound = false; // a position inside the pattern was not found in the player's moves
+				break;   // check the next pattern
+			}
+		}
+		if (allFound)
+			return true;
 	}
-	else
-		return false;
+	return false;   // no winner yet
+}
+
+
+// pattern matching helper function to compute position from row & column
+// for a 3x3 board - position numbering is row 0 -> 0, 1, 2 .... row 2 -> 6, 7, 8
+int TicTacToeBoard::rowColToPosition(int row, int column) {
+	if ((row >= BOARD_NUM_ROWS) || (column >= BOARD_NUM_COLS) ||
+		(row < 0) || (column < 0)) {
+		throw std::invalid_argument("Invalid row or column passed to getSquareContents\n");
+	}
+	return row * BOARD_NUM_COLS + column;
 }
 
 // map enum to character for displaying player name
