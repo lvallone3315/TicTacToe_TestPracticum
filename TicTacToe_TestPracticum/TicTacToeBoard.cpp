@@ -147,9 +147,11 @@ bool TicTacToeBoard::isWinner(Player playerToCheck) const {
 	return false;              // no winner this time
 }
 
+//                                     ***  Board class Helper functions ***
+//       pattern matching functions               mapping enums to player character           validating arguments
 
 
-//                      Set based refactoring
+//                      Pattern matching based winning approach
 // the following set based code is based on LV's python design that implemented set based win checks
 //   for expediency, the implementation leveraged some code from chatgpt
 // approach - record each players moves in a vector (ie X's moves & O's moves)
@@ -182,11 +184,8 @@ bool TicTacToeBoard::matchesWinningPattern(Player p) const {
 	return false;   // no winner yet
 }
 
-//                                     ***  Board class Helper functions ***
-//       pattern matching position computation               mapping enums to player character           validating arguments
 
-
-// helper function to compute position from row & column
+// pattern matching helper function to compute position from row & column
 // for a 3x3 board - position numbering is row 0 -> 0, 1, 2 .... row 2 -> 6, 7, 8
 int TicTacToeBoard::rowColToPosition(int row, int column) {
 	if ((row >= BOARD_NUM_ROWS) || (column >= BOARD_NUM_COLS) ||
