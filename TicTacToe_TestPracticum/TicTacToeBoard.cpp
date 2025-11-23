@@ -129,7 +129,7 @@ bool TicTacToeBoard::isWinner(Player playerToCheck) const {
 
 // Return true if game is a Draw - all squares filled and no one has won
 bool TicTacToeBoard::isDraw() const {
-	if ((takenSquareCount > BOARD_NUM_ROWS * BOARD_NUM_COLS) && 
+	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && 
 		!this->isWinner(X) && !this->isWinner(O)) {
 		return true;
 	}
