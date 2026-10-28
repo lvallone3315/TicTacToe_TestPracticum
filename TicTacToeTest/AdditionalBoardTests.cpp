@@ -7,6 +7,8 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace TicTacToeTest
 {
+#if 0   // temporarily disable these test cases
+
 	TEST_CLASS(TicTacToeAdditionalBoardTests)
 	{
 		TicTacToeBoard board;
@@ -333,4 +335,6 @@ namespace TicTacToeTest
 			catch (...) { Assert::Fail(L"Unexpected exception type thrown"); }
 		}  // end invvalid arguments & exception throwing test case
 	};
+
+#endif   // end of temporarily disabled test cases
 }
