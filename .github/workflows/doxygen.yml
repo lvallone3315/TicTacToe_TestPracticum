@@ -48,3 +48,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Add Link to Job Summary
+        run: |
+          echo "### 🚀 Doxygen Documentation Deployed Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "You can view your live interactive documentation site here:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**🔗 Live Website:** [Click Here to View Documentation](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
