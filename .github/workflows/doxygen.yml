@@ -4,6 +4,9 @@ on:
   push:
     branches: ["**"] # Triggers on a push to any branch
 
+env:
+  PROJECT_FOLDER: "TicTacToe_TestPracticum"
+
 permissions:
   contents: read
   pages: write
@@ -30,7 +33,7 @@ jobs:
 
       - name: Generate Documentation
         run: |
-          # Since your Doxyfile is in the project root next to the code:
+          cd ${{ env.PROJECT_FOLDER }}
           doxygen Doxyfile
 
       - name: Setup GitHub Pages Environment
