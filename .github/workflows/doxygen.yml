@@ -1,0 +1,57 @@
+name: Deploy Doxygen to GitHub Pages
+
+on:
+  push:
+    branches: ["**"] # Triggers on a push to any branch
+
+env:
+  PROJECT_FOLDER: "TicTacToe_TestPracticum"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate Documentation
+        run: |
+          cd ${{ env.PROJECT_FOLDER }}
+          doxygen Doxyfile
+
+      - name: Setup GitHub Pages Environment
+        uses: actions/configure-pages@v5
+
+      - name: Upload Static Web Artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Dynamically targets the html folder inside your project folder variable
+          path: './${{ env.PROJECT_FOLDER }}/html'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Add Link to Job Summary
+        run: |
+          echo "### 🚀 Doxygen Documentation Deployed Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "You can view your live interactive documentation site here:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**🔗 Live Website:** [Click Here to View Documentation](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
