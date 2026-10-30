@@ -16,6 +16,10 @@
 # Mono auto generated files
 mono_crash.*
 
+# Ignore Doxygen files
+html/
+latex/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
