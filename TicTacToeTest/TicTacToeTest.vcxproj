@@ -175,7 +175,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TicTacToe_Fall2023\TicTacToe_TestPracticum.vcxproj">
+    <ProjectReference Include="..\TicTacToe_TestPracticum\TicTacToe_TestPracticum.vcxproj">
       <Project>{8a23dc32-96b4-4967-b9f4-5385f5d2df76}</Project>
     </ProjectReference>
   </ItemGroup>
