@@ -168,7 +168,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="StudentAutomatedTests.cpp" />
+    <ClCompile Include="_WorkshopAutomatedTests.cpp" />
+    <ClCompile Include="_PracticumAutomatedTests.cpp" />
     <ClCompile Include="TicTacToeTest.cpp" />
   </ItemGroup>
   <ItemGroup>

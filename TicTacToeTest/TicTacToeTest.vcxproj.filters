@@ -24,10 +24,13 @@
     <ClCompile Include="AdditionalBoardTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StudentAutomatedTests.cpp">
+    <ClCompile Include="_PracticumAutomatedTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\TicTacToe_TestPracticum\TicTacToeBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_WorkshopAutomatedTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

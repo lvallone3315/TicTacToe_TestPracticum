@@ -21,7 +21,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace TicTacToeTest
 {
-	TEST_CLASS(TicTacToeStudentAutomatedTests)
+	TEST_CLASS(PracticumAutomatedTests)
 	{
 		TicTacToeBoard board;
 
