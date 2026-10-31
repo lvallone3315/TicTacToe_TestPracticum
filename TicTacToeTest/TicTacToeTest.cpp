@@ -133,22 +133,29 @@ namespace TicTacToeTest
 }
 
 /* Board class - method description
-* Implementation notes :
-* -Player enum is used for both the name of the player& for the player's move
-* -lots of Technical debt in this implementation, including need to consistently use BOARD_NUM_ROWS and BOARD_NUM_COLS
-* - the range for valid rows & columns is [0,2], all other values are invalid
-*
-* constructor - initializes board via resetBoard() method
-* resetBoard() - initializes board & number of turns played in current game
-* bool isSquareEmpty(int row, int column) - returns true = empty, false otherwise
-* bool writeSquare(int row, int column, Player player) - returns false if can’t write square
-* char getSquareContents(int row, int column) - returns character in specified square(e.g. 'X', 'O', ' ')
-* Player getPlayer() - returns player(enum) whose turn it is
-* char getPlayerName() - returns player(character) whose turn it is
-* Player nextPlayer() - returns Player(ie enum) of the next player(e.g. if O playing, returns X)
-* bool isWinner(Player playerToCheck) - true if the specified player has won, false otherwise
-* bool isDraw() - true if no - one has won, false otherwise(e.g.consider - no spaces empty)
-**/
+ * Implementation notes:
+ *     - Player enum is used for both the name of the player & for the player's move
+ *       getPlayerName() returns a character representation for the enum (e.g. enum X returns 'X')
+ *     - lots of Technical debt in this implementation, including need to consistently use BOARD_NUM_ROWS and BOARD_NUM_COLS
+ *     - the range for valid rows & columns is [0,2], all other values are invalid (note: max = BOARD_NUM_... - 1)
+ *     - if row or column is out of range, all methods should throw an invalid argument exception
+ *     - Board tracks # of squares played, but no method currently returns this value
+ *     - Every public method with row & column arguments should validate the arguments and throw an invalid argument exception if out of range
+ *
+ * constructor                                 - initializes board via resetBoard() method
+ * resetBoard()                                - initializes all squares to EMPTY and number of turns played to 0
+ *												 the current player remains unchanged (e.g. if X is playing, X remains player after resetBoard)
+ * bool isSquareEmpty(int row, int column)     - returns true = square empty, false otherwise
+ * bool writeSquare(int row, int column, Player player) - if cell empty, writes enum into square & returns true, returns false if square !empty
+ * char getSquareContents(int row, int column) - returns character in specified square (e.g. 'X', 'O', ' ')
+ *
+ * Player getPlayer()                          - returns player (enum) whose turn it is
+ * char getPlayerName()                        - returns player (character) whose turn it is
+ * Player nextPlayer()                         - swaps player whose turn it is &
+ *                                                 returns Player (ie enum) of the new player (e.g. if O playing, returns X)
+ * bool isWinner(Player playerToCheck)         - true if the specified player has won, false otherwise
+ * bool isDraw()                               - true if no-one has won & no open squares, false otherwise (e.g. consider - no spaces empty)
+ **/
 
 /*
 Common Test Automation Asserts including Examples
