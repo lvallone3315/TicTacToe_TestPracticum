@@ -42,7 +42,7 @@ namespace TicTacToeTest
 
 		TEST_METHOD(HelloStudentTests) {
 			Logger::WriteMessage("Running student tests on the Board object");
-			Assert::IsTrue(true);
+			Assert::IsTrue(false);
 		}
 	};
 }
